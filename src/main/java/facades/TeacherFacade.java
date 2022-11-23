@@ -1,6 +1,8 @@
 package facades;
 
-import entities.User;
+import dtos.TeacherDTO;
+import entities.Role;
+import entities.Teacher;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import security.errorhandling.AuthenticationException;
@@ -13,6 +15,10 @@ public class TeacherFacade {
     private static EntityManagerFactory emf;
     private static TeacherFacade instance;
 
+    private EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
+
     private TeacherFacade() {
     }
 
@@ -21,7 +27,7 @@ public class TeacherFacade {
      * @param _emf
      * @return the instance of this facade.
      */
-    public static TeacherFacade getUserFacade(EntityManagerFactory _emf) {
+    public static TeacherFacade getTeacherFacade(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
             instance = new TeacherFacade();
@@ -29,8 +35,19 @@ public class TeacherFacade {
         return instance;
     }
 
-    public void saveTeacher(String username, String password) {
-
+    public TeacherDTO createTeacher(TeacherDTO teacherDTO){
+        EntityManager em = getEntityManager();
+        Teacher teacher = new Teacher(teacherDTO.getUsername(), teacherDTO.getPassword());
+        Role role = em.find(Role.class, "teacher");
+        teacher.addRole(role);
+        try {
+            em.getTransaction().begin();
+            em.persist(teacher);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new TeacherDTO(teacher);
     }
 
     public TeacherDTO getTeacher() {

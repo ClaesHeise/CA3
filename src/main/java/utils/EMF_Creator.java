@@ -70,9 +70,11 @@ public class EMF_Creator {
         }
         EntityManagerFactory emf = null;
         try {
+            System.out.println("Hello");
          emf =  Persistence.createEntityManagerFactory(puName, null);
        
         } catch (javax.persistence.PersistenceException ex){
+            System.out.println("Hello from error: "+puName);
             System.out.println("##########################################################");
             System.out.println("######      ERROR Creating a persistence Unit       ######");
             System.out.println("###### Have you started the dev and test databases? ######");

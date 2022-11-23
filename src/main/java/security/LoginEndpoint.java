@@ -10,12 +10,13 @@ import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import entities.Teacher;
 import facades.TeacherFacade;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import entities.User;
+
 import errorhandling.API_Exception;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -33,7 +34,7 @@ public class LoginEndpoint {
 
     public static final int TOKEN_EXPIRE_TIME = 1000 * 60 * 30; //30 min
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
-    public static final TeacherFacade TEACHER_FACADE = TeacherFacade.getUserFacade(EMF);
+    public static final TeacherFacade TEACHER_FACADE = TeacherFacade.getTeacherFacade(EMF);
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -50,8 +51,8 @@ public class LoginEndpoint {
         }
 
         try {
-            User user = TEACHER_FACADE.getVeryfiedUser(username, password);
-            String token = createToken(username, user.getRolesAsStrings());
+            Teacher teacher = TEACHER_FACADE.getVeryfiedUser(username, password);
+            String token = createToken(username, teacher.getRole());
             JsonObject responseJson = new JsonObject();
             responseJson.addProperty("username", username);
             responseJson.addProperty("token", token);
@@ -66,14 +67,15 @@ public class LoginEndpoint {
         throw new AuthenticationException("Invalid username or password! Please try again");
     }
 
-    private String createToken(String userName, List<String> roles) throws JOSEException {
+    private String createToken(String userName, String role) throws JOSEException {
 
-        StringBuilder res = new StringBuilder();
-        for (String string : roles) {
-            res.append(string);
-            res.append(",");
-        }
-        String rolesAsString = res.length() > 0 ? res.substring(0, res.length() - 1) : "";
+//        StringBuilder res = new StringBuilder();
+//        res.append(role);
+////        for (String string : roles) {
+////            res.append(string);
+////            res.append(",");
+////        }
+//        String rolesAsString = res.length() > 0 ? res.substring(0, res.length() - 1) : "";
         String issuer = "semesterstartcode-dat3";
 
         JWSSigner signer = new MACSigner(SharedSecret.getSharedKey());
@@ -81,7 +83,7 @@ public class LoginEndpoint {
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
                 .subject(userName)
                 .claim("username", userName)
-                .claim("roles", rolesAsString)
+                .claim("role", role)
                 .claim("issuer", issuer)
                 .issueTime(date)
                 .expirationTime(new Date(date.getTime() + TOKEN_EXPIRE_TIME))

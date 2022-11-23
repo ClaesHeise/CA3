@@ -1,6 +1,6 @@
 package dtos;
 
-import entities.RenameMe;
+import entities.Topic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,26 +14,30 @@ public class TopicDTO {
 
     String formula;
 
-    public TopicDTO(String name, String description, String example, String formula) {
+    String calculatorURL;
+
+    public TopicDTO(String name, String description, String example, String formula, String calculatorURL) {
         this.name = name;
         this.description = description;
         this.example = example;
         this.formula = formula;
+        this.calculatorURL = calculatorURL;
     }
 
-    public static List<TeacherDTO> getDtos(List<Topic> rms){
-        List<TeacherDTO> rmdtos = new ArrayList();
-        rms.forEach(rm->rmdtos.add(new TeacherDTO(rm)));
-        return rmdtos;
-    }
+//    public static List<TeacherDTO> getDtos(List<Topic> rms){
+//        List<TeacherDTO> rmdtos = new ArrayList();
+//        rms.forEach(rm->rmdtos.add(new TeacherDTO(rm)));
+//        return rmdtos;
+//    }
 
 
-    public TopicDTO(Topic rm) {
-        if(rm.getName() != null)
-            this.name = rm.getName();
-        this.description = rm.getDescription();
-        this.example = rm.getExample();
-        this.formula = rm.getFormula();
+    public TopicDTO(Topic topic) {
+        if(topic.getName() != null)
+            this.name = topic.getName();
+        this.description = topic.getDescription();
+        this.example = topic.getExample();
+        this.formula = topic.getFormula();
+        this.calculatorURL = topic.getCalculatorURL();
     }
 
     public String getName() {
@@ -66,6 +70,14 @@ public class TopicDTO {
 
     public void setFormula(String formula) {
         this.formula = formula;
+    }
+
+    public String getCalculatorURL() {
+        return calculatorURL;
+    }
+
+    public void setCalculatorURL(String calculatorURL) {
+        this.calculatorURL = calculatorURL;
     }
 
     @Override
