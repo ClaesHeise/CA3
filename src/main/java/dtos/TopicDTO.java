@@ -21,18 +21,19 @@ public class TopicDTO {
         this.formula = formula;
     }
 
-    public static List<TeacherDTO> getDtos(List<RenameMe> rms){
+    public static List<TeacherDTO> getDtos(List<Topic> rms){
         List<TeacherDTO> rmdtos = new ArrayList();
         rms.forEach(rm->rmdtos.add(new TeacherDTO(rm)));
         return rmdtos;
     }
 
 
-    public TopicDTO(RenameMe rm) {
-        if(rm.getId() != null)
-            this.id = rm.getId();
-        this.username = rm.getUsername();
-        this.password = rm.getPassword();
+    public TopicDTO(Topic rm) {
+        if(rm.getName() != null)
+            this.name = rm.getName();
+        this.description = rm.getDescription();
+        this.example = rm.getExample();
+        this.formula = rm.getFormula();
     }
 
     public String getName() {

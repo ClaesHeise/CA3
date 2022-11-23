@@ -26,18 +26,18 @@ public class TeacherDTO {
         this.role = role;
     }
 
-    public static List<TeacherDTO> getDtos(List<RenameMe> rms){
+    public static List<TeacherDTO> getDtos(List<Teacher> rms){
         List<TeacherDTO> rmdtos = new ArrayList();
         rms.forEach(rm->rmdtos.add(new TeacherDTO(rm)));
         return rmdtos;
     }
 
 
-    public TeacherDTO(RenameMe rm) {
-        if(rm.getId() != null)
-            this.id = rm.getId();
-        this.username = rm.getUsername();
+    public TeacherDTO(Teacher rm) {
+        if(rm.getUsername() != null)
+            this.username = rm.getUsername();
         this.password = rm.getPassword();
+        this.role = rm.getRole();
     }
 
     public String getUsername() {
