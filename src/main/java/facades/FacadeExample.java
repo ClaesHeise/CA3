@@ -1,6 +1,6 @@
 package facades;
 
-import dtos.RenameMeDTO;
+import dtos.TeacherDTO;
 import entities.RenameMe;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -40,7 +40,7 @@ public class FacadeExample {
         return emf.createEntityManager();
     }
     
-    public RenameMeDTO create(RenameMeDTO rm){
+    public TeacherDTO create(TeacherDTO rm){
         RenameMe rme = new RenameMe(rm.getDummyStr1(), rm.getDummyStr2());
         EntityManager em = getEntityManager();
         try {
@@ -50,14 +50,14 @@ public class FacadeExample {
         } finally {
             em.close();
         }
-        return new RenameMeDTO(rme);
+        return new TeacherDTO(rme);
     }
-    public RenameMeDTO getById(long id) { //throws RenameMeNotFoundException {
+    public TeacherDTO getById(long id) { //throws RenameMeNotFoundException {
         EntityManager em = emf.createEntityManager();
         RenameMe rm = em.find(RenameMe.class, id);
 //        if (rm == null)
 //            throw new RenameMeNotFoundException("The RenameMe entity with ID: "+id+" Was not found");
-        return new RenameMeDTO(rm);
+        return new TeacherDTO(rm);
     }
     
     //TODO Remove/Change this before use
@@ -71,11 +71,11 @@ public class FacadeExample {
         }
     }
     
-    public List<RenameMeDTO> getAll(){
+    public List<TeacherDTO> getAll(){
         EntityManager em = emf.createEntityManager();
         TypedQuery<RenameMe> query = em.createQuery("SELECT r FROM RenameMe r", RenameMe.class);
         List<RenameMe> rms = query.getResultList();
-        return RenameMeDTO.getDtos(rms);
+        return TeacherDTO.getDtos(rms);
     }
     
     public static void main(String[] args) {
