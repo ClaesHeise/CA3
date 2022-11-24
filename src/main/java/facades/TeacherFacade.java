@@ -5,6 +5,8 @@ import entities.Role;
 import entities.Teacher;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+
+import org.mindrot.jbcrypt.BCrypt;
 import security.errorhandling.AuthenticationException;
 
 /**
@@ -68,11 +70,26 @@ public class TeacherFacade {
         return teacher;
     }
 
-    public void updateTeacherPassword(String username, String password) {
-
+    public void updateTeacherPassword(String username, String password)  {
+        EntityManager em = emf.createEntityManager();
+        Teacher teacher = em.find(Teacher.class, username);
+        try{
+            em.getTransaction().begin();
+            teacher.setPassword(password);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
     }
-
-    public void deleteTeacher(String username) {
-
+    public void deleteTeacher(String username, String password) {
+        EntityManager em = emf.createEntityManager();
+        Teacher teacher = em.find(Teacher.class, username);
+        try {
+            em.getTransaction().begin();
+            em.remove(teacher);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
     }
 }
