@@ -7,6 +7,8 @@ import entities.Topic;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,11 +53,23 @@ public class TopicFacade {
     }
 
     public List<TopicDTO> getAllTopics() {
-        return null;
+        EntityManager em = getEntityManager();
+        TypedQuery<Topic> query =  em.createQuery("SELECT t FROM Topic t", Topic.class);
+        List<Topic> topics = query.getResultList();
+        List<TopicDTO> topicDTOS = new ArrayList<>();
+        for(Topic t : topics){
+            topicDTOS.add(new TopicDTO(t));
+        }
+        return topicDTOS;
     }
 
     public TopicDTO getTopicByName(String name) {
-        return null;
+        EntityManager em = getEntityManager();
+        TypedQuery<Topic> query = em.createQuery("SELECT t FROM Topic t WHERE t.name = :nt", Topic.class)
+                    .setParameter("nt", name);
+        Topic topic = query.getSingleResult();
+        TopicDTO topicDTO = new TopicDTO(topic);
+        return topicDTO;
     }
 
     public void updateTopic(TopicDTO topicDTO) {
