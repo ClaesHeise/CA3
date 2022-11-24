@@ -27,18 +27,18 @@ public class TeacherDTO {
         this.role = role;
     }
 
-    public static List<TeacherDTO> getDtos(List<Teacher> rms){
-        List<TeacherDTO> rmdtos = new ArrayList();
-        rms.forEach(rm->rmdtos.add(new TeacherDTO(rm)));
-        return rmdtos;
+    public static List<TeacherDTO> getDtos(List<Teacher> teachers){
+        List<TeacherDTO> teacherDTOS = new ArrayList();
+        teachers.forEach(teacher->teacherDTOS.add(new TeacherDTO(teacher)));
+        return teacherDTOS;
     }
 
 
-    public TeacherDTO(Teacher rm) {
-        if(rm.getUsername() != null)
-            this.username = rm.getUsername();
-        this.password = rm.getPassword();
-        this.role = rm.getRole();
+    public TeacherDTO(Teacher teacher) {
+        if(teacher.getUsername() != null)
+            this.username = teacher.getUsername();
+        this.password = teacher.getPassword();
+        this.role = teacher.getRole();
     }
 
     public String getUsername() {
@@ -61,5 +61,4 @@ public class TeacherDTO {
     public String toString() {
         return "TeacherDTO{" + "username=" + username + ", password=" + password + ", role=" + role + '}';
     }
-
 }
