@@ -28,6 +28,9 @@ public class Populator {
                 "and then by a series of steadily increasing numbers. The sequence follows the rule that each " +
                 "number is equal to the sum of the preceding two numbers.", "First 14 numbers:\n0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ...\n" +
                 "Example on how to get to 7th number: 5th number + 6th number = 7th number => 3 + 5 = 8", "Fn = Fn-1 + Fn-2", "/numbertheory/fibonacci/number")));
+        tof.createTopic(new TopicDTO(new Topic("Addition", "Addition in math is a process of combining two or more numbers. Addends are the numbers added, and the result or the final answer " +
+                "we get after the process is called the sum.", "If you have 2 apples and somebody gives you 3 more apples, if you count them together" +
+                ", you will now have 5 apples, this can be represented by: 2 + 3 = 5", "a + b = c", "/arithmetic/add")));
         tf.createTeacher(new TeacherDTO(new Teacher("TeacherBanana", "banana123")));
         tf.createTeacher(new TeacherDTO(new Teacher("TeacherStrawberry", "strawberry123")));
         tf.createTeacher(new TeacherDTO(new Teacher("TeacherApple", "apple123")));
