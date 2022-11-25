@@ -57,6 +57,14 @@ public class TeacherDTO {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "TeacherDTO{" + "username=" + username + ", password=" + password + ", role=" + role + '}';

@@ -52,13 +52,10 @@ public class TeacherFacade {
         return new TeacherDTO(teacher);
     }
 
-    public TeacherDTO getTeacher() {
-        return null;
-    }
-
-    public Teacher getVeryfiedUser(String username, String password) throws AuthenticationException {
+    public TeacherDTO getVeryfiedUser(String username, String password) throws AuthenticationException {
         EntityManager em = emf.createEntityManager();
         Teacher teacher;
+        TeacherDTO teacherDTO;
         try {
             teacher = em.find(Teacher.class, username);
             if (teacher == null || !teacher.verifyPassword(password)) {
@@ -67,7 +64,8 @@ public class TeacherFacade {
         } finally {
             em.close();
         }
-        return teacher;
+        teacherDTO = new TeacherDTO(teacher);
+        return teacherDTO;
     }
 
     public void updateTeacherPassword(String username, String password)  {

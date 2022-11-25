@@ -10,6 +10,8 @@ import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import dtos.TeacherDTO;
+import entities.Role;
 import entities.Teacher;
 import facades.TeacherFacade;
 import java.util.Date;
@@ -51,8 +53,12 @@ public class LoginEndpoint {
         }
 
         try {
-            Teacher teacher = TEACHER_FACADE.getVeryfiedUser(username, password);
-            String token = createToken(username, teacher.getRole());
+            TeacherDTO teacherDTO = TEACHER_FACADE.getVeryfiedUser(username, password);
+//            Teacher teacher = new Teacher(teacherDTO.getUsername(), teacherDTO.getPassword());
+//            Role role = new Role("teacher");
+//            teacher.addRole(role);
+//            String token = createToken(username, teacher.getRole());
+            String token = createToken(username, teacherDTO.getRole());
             JsonObject responseJson = new JsonObject();
             responseJson.addProperty("username", username);
             responseJson.addProperty("token", token);

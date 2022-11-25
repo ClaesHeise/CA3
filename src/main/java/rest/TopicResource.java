@@ -17,6 +17,7 @@ package rest;
 //import java.awt.*;
 //import java.util.ArrayList;
 
+import javax.json.JsonObject;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.*;
@@ -25,6 +26,9 @@ import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
+import dtos.TopicDTO;
+import errorhandling.API_Exception;
 import facades.TopicFacade;
 import utils.EMF_Creator;
 
@@ -49,4 +53,15 @@ public class TopicResource {
     public Response getByName(@PathParam("name") String name) throws EntityNotFoundException {
         return Response.ok().entity(GSON.toJson(FACADE.getTopicByName(name))).build();
     }
+
+//    @PUT
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response updateTopic(String jsonString) throws API_Exception {
+////        TopicDTO topicDTO;
+////        try {
+////            JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
+////            topicDTO = new TopicDTO(json.get(""))
+////        }
+//    }
 }
