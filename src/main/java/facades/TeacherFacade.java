@@ -81,7 +81,7 @@ public class TeacherFacade {
             em.close();
         }
     }
-    public void deleteTeacher(String username, String password) {
+    public void deleteTeacher(String username) {
         EntityManager em = emf.createEntityManager();
         Teacher teacher = em.find(Teacher.class, username);
         try {
