@@ -6,22 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TopicDTO {
-    String name;
+    private String name;
 
-    String description;
+    private String description;
 
-    String example;
+    private String example;
 
-    String formula;
+    private String formula;
 
-    String calculatorURL;
+    private String calculatorURL;
 
-    public TopicDTO(String name, String description, String example, String formula, String calculatorURL) {
+    private CalculatorDTO calculatorDTO;
+
+    public TopicDTO(String name, String description, String example, String formula, String calculatorURL, CalculatorDTO calculatorDTO) {
         this.name = name;
         this.description = description;
         this.example = example;
         this.formula = formula;
         this.calculatorURL = calculatorURL;
+        this.calculatorDTO = calculatorDTO;
     }
 
 //    public static List<TeacherDTO> getDtos(List<Topic> rms){
@@ -38,6 +41,7 @@ public class TopicDTO {
         this.example = topic.getExample();
         this.formula = topic.getFormula();
         this.calculatorURL = topic.getCalculatorURL();
+        this.calculatorDTO = new CalculatorDTO(topic.getCalculator());
     }
 
     public String getName() {
@@ -80,9 +84,23 @@ public class TopicDTO {
         this.calculatorURL = calculatorURL;
     }
 
-    @Override
-    public String toString() {
-        return "TopicDTO{" + "name=" + name + ", description=" + description + ", example=" + example + ", formula=" + formula +'}';
+    public CalculatorDTO getCalculatorDTO() {
+        return calculatorDTO;
     }
 
+    public void setCalculatorDTO(CalculatorDTO calculatorDTO) {
+        this.calculatorDTO = calculatorDTO;
+    }
+
+    @Override
+    public String toString() {
+        return "TopicDTO{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", example='" + example + '\'' +
+                ", formula='" + formula + '\'' +
+                ", calculatorURL='" + calculatorURL + '\'' +
+                ", calculatorDTO=" + calculatorDTO +
+                '}';
+    }
 }

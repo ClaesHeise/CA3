@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "topic")
@@ -31,12 +32,25 @@ public class Topic implements Serializable {
     @Column(name = "calc_url")
     private String calculatorURL;
 
+    @ManyToOne
+    @JoinColumn(name = "calculator_name")
+    private Calculator calculator;
+
     public Topic(String name, String description, String example, String formula, String calculatorURL) {
         this.name = name;
         this.description = description;
         this.example = example;
         this.formula = formula;
         this.calculatorURL = calculatorURL;
+    }
+
+    public Topic(String name, String description, String example, String formula, String calculatorURL, Calculator calculator) {
+        this.name = name;
+        this.description = description;
+        this.example = example;
+        this.formula = formula;
+        this.calculatorURL = calculatorURL;
+        this.calculator = calculator;
     }
 
     public Topic() {}
@@ -79,5 +93,25 @@ public class Topic implements Serializable {
 
     public void setCalculatorURL(String calculatorURL) {
         this.calculatorURL = calculatorURL;
+    }
+
+    public Calculator getCalculator() {
+        return calculator;
+    }
+
+    public void setCalculator(Calculator calculator) {
+        this.calculator = calculator;
+    }
+
+    @Override
+    public String toString() {
+        return "Topic{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", example='" + example + '\'' +
+                ", formula='" + formula + '\'' +
+                ", calculatorURL='" + calculatorURL + '\'' +
+                ", calculator=" + calculator +
+                '}';
     }
 }
