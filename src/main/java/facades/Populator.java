@@ -34,6 +34,7 @@ public class Populator {
         tf.createTeacher(new TeacherDTO(new Teacher("TeacherBanana", "banana123")));
         tf.createTeacher(new TeacherDTO(new Teacher("TeacherStrawberry", "strawberry123")));
         tf.createTeacher(new TeacherDTO(new Teacher("TeacherApple", "apple123")));
+        tf.createTeacher(new TeacherDTO(new Teacher("Claes", "claes123")));
     }
 
     public static void main(String[] args) {

@@ -59,7 +59,7 @@ public class TeacherFacade {
         try {
             teacher = em.find(Teacher.class, username);
             if (teacher == null || !teacher.verifyPassword(password)) {
-                throw new AuthenticationException("Invalid user name or password");
+                throw new AuthenticationException(username+" "+password+" are invalid username or password");
             }
         } finally {
             em.close();
