@@ -5,14 +5,7 @@ import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.SignedJWT;
 import security.errorhandling.AuthenticationException;
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.text.ParseException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.annotation.Priority;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
@@ -23,6 +16,14 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.Provider;
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.text.ParseException;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 @Provider
@@ -79,12 +80,12 @@ public class JWTAuthenticationFilter implements ContainerRequestFilter {
      if (new Date().getTime() > signedJWT.getJWTClaimsSet().getExpirationTime().getTime()) {
        throw new AuthenticationException("Your Token is no longer valid");
      }
-     String role = signedJWT.getJWTClaimsSet().getClaim("role").toString();
+     String roles = signedJWT.getJWTClaimsSet().getClaim("roles").toString();
      String username = signedJWT.getJWTClaimsSet().getClaim("username").toString();
      
-//     String[] rolesArray = roles.split(",");
+     String[] rolesArray = roles.split(",");
      
-     return new UserPrincipal(username, role);
+     return new UserPrincipal(username, rolesArray);
 //     return new UserPrincipal(username, roles);
    } else {
      throw new JOSEException("User could not be extracted from token");

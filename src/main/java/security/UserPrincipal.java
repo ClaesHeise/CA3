@@ -1,6 +1,7 @@
 package security;
 
-import entities.Teacher;
+import entities.User;
+
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,18 +10,18 @@ import java.util.List;
 public class UserPrincipal implements Principal {
 
   private String username;
-  private String role;
+  private List<String> roles = new ArrayList<>();
 
   /* Create a UserPrincipal, given the Entity class User*/
-  public UserPrincipal(Teacher teacher) {
-    this.username = teacher.getUsername();
-    this.role = teacher.getRole();
+  public UserPrincipal(User user) {
+    this.username = user.getUsername();
+    this.roles = user.getRolesAsStrings();
   }
 
-  public UserPrincipal(String username, String role) {
+  public UserPrincipal(String username, String[] roles) {
     super();
     this.username = username;
-    this.role = role;
+    this.roles = Arrays.asList(roles);
   }
 
   @Override
@@ -29,6 +30,6 @@ public class UserPrincipal implements Principal {
   }
 
   public boolean isUserInRole(String role) {
-    return this.role.equals(role);
+    return this.roles.contains(role);
   }
 }

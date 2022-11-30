@@ -7,17 +7,17 @@ package facades;
 
 import javax.persistence.EntityManagerFactory;
 
-import dtos.CalculatorDTO;
-import dtos.CalculatorFieldDTO;
-import dtos.TeacherDTO;
+import dtos.UserDTO;
 import dtos.TopicDTO;
 import entities.Calculator;
 import entities.CalculatorField;
-import entities.Teacher;
+import entities.User;
 import entities.Topic;
 import utils.EMF_Creator;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,7 +28,7 @@ public class Populator {
     public static void populate(){
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
 //        FacadeExample fe = FacadeExample.getFacadeExample(emf);
-        TeacherFacade tf = TeacherFacade.getTeacherFacade(emf);
+        UserFacade tf = UserFacade.getUserFacade(emf);
         TopicFacade tof = TopicFacade.getTopicFacade(emf);
         Set<String> tags1 = new HashSet<>();
         tags1.add("+");
@@ -52,10 +52,13 @@ public class Populator {
                 "Example on how to get to 7th number: 5th number + 6th number = 7th number => 3 + 5 = 8", "Fn = Fn-1 + Fn-2", "/numbertheory/fibonacci/number", calculator2);
         tof.createTopic(new TopicDTO(topicAddition));
         tof.createTopic(new TopicDTO(topicFibonacci));
-        tf.createTeacher(new TeacherDTO(new Teacher("TeacherBanana", "banana123")));
-        tf.createTeacher(new TeacherDTO(new Teacher("TeacherStrawberry", "strawberry123")));
-        tf.createTeacher(new TeacherDTO(new Teacher("TeacherApple", "apple123")));
-        tf.createTeacher(new TeacherDTO(new Teacher("Claes", "claes123")));
+        List<String> list = new ArrayList<>();
+        list.add("teacher");
+        tf.createUser(new UserDTO("TeacherBanana", "banana123", list));
+        tf.createUser(new UserDTO("TeacherStrawberry", "strawberry123", list));
+
+        tf.createUser(new UserDTO("TeacherApple", "apple123",list));
+        tf.createUser(new UserDTO("Claes", "claes123",list));
     }
 
     public static void main(String[] args) {

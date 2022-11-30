@@ -1,6 +1,6 @@
 package rest;
 
-import entities.Teacher;
+import entities.User;
 
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
@@ -43,9 +43,9 @@ public class DemoResource {
 
         EntityManager em = EMF.createEntityManager();
         try {
-            TypedQuery<Teacher> query = em.createQuery ("select u from Teacher u", Teacher.class);
-            List<Teacher> teachers = query.getResultList();
-            return "[" + teachers.size() + "]";
+            TypedQuery<User> query = em.createQuery ("select u from User u", User.class);
+            List<User> users = query.getResultList();
+            return "[" + users.size() + "]";
         } finally {
             em.close();
         }

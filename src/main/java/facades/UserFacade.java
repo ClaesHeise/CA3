@@ -1,27 +1,26 @@
 package facades;
 
-import dtos.TeacherDTO;
+import dtos.UserDTO;
 import entities.Role;
-import entities.Teacher;
+import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import org.mindrot.jbcrypt.BCrypt;
 import security.errorhandling.AuthenticationException;
 
 /**
  * @author lam@cphbusiness.dk
  */
-public class TeacherFacade {
+public class UserFacade {
 
     private static EntityManagerFactory emf;
-    private static TeacherFacade instance;
+    private static UserFacade instance;
 
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    private TeacherFacade() {
+    private UserFacade() {
     }
 
     /**
@@ -29,62 +28,62 @@ public class TeacherFacade {
      * @param _emf
      * @return the instance of this facade.
      */
-    public static TeacherFacade getTeacherFacade(EntityManagerFactory _emf) {
+    public static UserFacade getUserFacade(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new TeacherFacade();
+            instance = new UserFacade();
         }
         return instance;
     }
 
-    public TeacherDTO createTeacher(TeacherDTO teacherDTO){
+    public UserDTO createUser(UserDTO userDTO){
         EntityManager em = getEntityManager();
-        Teacher teacher = new Teacher(teacherDTO.getUsername(), teacherDTO.getPassword());
+        User user = new User(userDTO.getUsername(), userDTO.getPassword());
+//        User user = em.find(User.class, userDTO.getUsername());
         Role role = em.find(Role.class, "teacher");
-        teacher.addRole(role);
+        user.addRole(role);
         try {
             em.getTransaction().begin();
-            em.persist(teacher);
+            em.persist(user);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
-        return new TeacherDTO(teacher);
+        return new UserDTO(user);
     }
 
-    public TeacherDTO getVeryfiedUser(String username, String password) throws AuthenticationException {
+    public User getVeryfiedUser(String username, String password) throws AuthenticationException {
         EntityManager em = emf.createEntityManager();
-        Teacher teacher;
-        TeacherDTO teacherDTO;
+        User user;
         try {
-            teacher = em.find(Teacher.class, username);
-            if (teacher == null || !teacher.verifyPassword(password)) {
+            user = em.find(User.class, username);
+            System.out.println(user.getUsername()+" "+user.getPassword()+" "+user.getRolesAsStrings());
+            if (user == null || !user.verifyPassword(password)) {
                 throw new AuthenticationException(username+" "+password+" are invalid username or password");
             }
         } finally {
             em.close();
         }
-        teacherDTO = new TeacherDTO(teacher);
-        return teacherDTO;
+        return user;
     }
 
-    public void updateTeacherPassword(String username, String password)  {
+    public void updateUserPassword(String username, String password)  {
         EntityManager em = emf.createEntityManager();
-        Teacher teacher = em.find(Teacher.class, username);
+        User user = em.find(User.class, username);
         try{
             em.getTransaction().begin();
-            teacher.setPassword(password);
+            user.setPassword(password);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
     }
-    public void deleteTeacher(String username) {
+    public void deleteUser(String username) {
         EntityManager em = emf.createEntityManager();
-        Teacher teacher = em.find(Teacher.class, username);
+        User user = em.find(User.class, username);
         try {
             em.getTransaction().begin();
-            em.remove(teacher);
+            em.remove(user);
             em.getTransaction().commit();
         } finally {
             em.close();

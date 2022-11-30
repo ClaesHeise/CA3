@@ -5,7 +5,7 @@
  */
 package dtos;
 
-import entities.Teacher;
+import entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,31 +14,31 @@ import java.util.List;
  *
  * @author tha
  */
-public class TeacherDTO {
+public class UserDTO {
     String username;
 
     String password;
 
-    String role;
+    List<String> role;
 
-    public TeacherDTO(String username, String password, String role) {
+    public UserDTO(String username, String password, List<String> role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public static List<TeacherDTO> getDtos(List<Teacher> teachers){
-        List<TeacherDTO> teacherDTOS = new ArrayList();
-        teachers.forEach(teacher->teacherDTOS.add(new TeacherDTO(teacher)));
-        return teacherDTOS;
+    public static List<UserDTO> getDtos(List<User> users){
+        List<UserDTO> userDTOS = new ArrayList();
+        users.forEach(user-> userDTOS.add(new UserDTO(user)));
+        return userDTOS;
     }
 
 
-    public TeacherDTO(Teacher teacher) {
-        if(teacher.getUsername() != null)
-            this.username = teacher.getUsername();
-        this.password = teacher.getPassword();
-        this.role = teacher.getRole();
+    public UserDTO(User user) {
+        if(user.getUsername() != null)
+            this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.role = user.getRolesAsStrings();
     }
 
     public String getUsername() {
@@ -57,16 +57,16 @@ public class TeacherDTO {
         this.password = password;
     }
 
-    public String getRole() {
+    public List<String> getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(List<String> role) {
         this.role = role;
     }
 
     @Override
     public String toString() {
-        return "TeacherDTO{" + "username=" + username + ", password=" + password + ", role=" + role + '}';
+        return "UserDTO{" + "username=" + username + ", password=" + password + ", role=" + role + '}';
     }
 }

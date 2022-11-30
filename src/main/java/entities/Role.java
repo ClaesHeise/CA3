@@ -19,9 +19,9 @@ public class Role implements Serializable {
     @NotNull
     @Column(name = "role_name", length = 20)
     private String roleName;
-    
-    @OneToMany(mappedBy = "role")
-    private List<Teacher> teacherList;
+
+    @ManyToMany(mappedBy = "roleList")
+    private List<User> userList;
 
     public Role() {
     }
@@ -34,11 +34,15 @@ public class Role implements Serializable {
         return roleName;
     }
 
-    public List<Teacher> getTeacherList() {
-        return teacherList;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
-    public void setTeacherList(Teacher teacher) {
-        this.teacherList.add(teacher);
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(User user) {
+        this.userList.add(user);
     }   
 }

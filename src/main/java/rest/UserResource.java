@@ -2,7 +2,7 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dtos.TeacherDTO;
+import dtos.UserDTO;
 import utils.EMF_Creator;
 
 import javax.persistence.EntityManagerFactory;
@@ -11,13 +11,13 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("teacher")
-public class TeacherResource {
+@Path("user")
+public class UserResource {
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
 
-    private static final TeacherResource FACADE =  TeacherResource.getTeacherFacade(EMF);
+    private static final UserResource FACADE =  UserResource.getUserFacade(EMF);
 
-    private static TeacherResource getTeacherFacade(EntityManagerFactory emf) {
+    private static UserResource getUserFacade(EntityManagerFactory emf) {
         return null;
     }
 
@@ -26,8 +26,8 @@ public class TeacherResource {
     @GET
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getAllTeacher() throws EntityNotFoundException {
-        return Response.ok().entity(GSON.toJson(FACADE.getAllTeacher())).build();
+    public Response getAllUsers() throws EntityNotFoundException {
+        return Response.ok().entity(GSON.toJson(FACADE.getAllUsers())).build();
     }
 
     @DELETE
@@ -42,7 +42,7 @@ public class TeacherResource {
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public Response update_password(@PathParam("update_password") String password) throws EntityNotFoundException {
-        TeacherDTO t = GSON.fromJson(password, TeacherDTO.class);
+        UserDTO t = GSON.fromJson(password, UserDTO.class);
         t.setUsername(password); //Should be implemented
         Response updated = FACADE.update_password(String.valueOf(t));
         return Response.ok().entity(GSON.toJson(updated)).build();
