@@ -6,17 +6,17 @@ import java.util.Set;
 
 public class CalculatorDTO {
     private String name;
-    private Set<CalculatorFieldDTO> calculatorFieldDTOS;
+    private Set<CalculatorFieldDTO> calculatorFields;
 
     public CalculatorDTO(String name, Set<CalculatorFieldDTO> calculatorFieldDTOS) {
         this.name = name;
-        this.calculatorFieldDTOS = calculatorFieldDTOS;
+        this.calculatorFields = calculatorFieldDTOS;
     }
 
     public CalculatorDTO(Calculator calculator) {
         if(calculator.getName() != null)
             this.name = calculator.getName();
-        this.calculatorFieldDTOS = CalculatorFieldDTO.getDtos(calculator.getCalculatorFields());
+        this.calculatorFields = CalculatorFieldDTO.getDtos(calculator.getCalculatorFields());
     }
 
     public String getName() {
@@ -27,11 +27,11 @@ public class CalculatorDTO {
         this.name = name;
     }
 
-    public Set<CalculatorFieldDTO> getCalculatorFieldsDTOs() {
-        return calculatorFieldDTOS;
+    public Set<CalculatorFieldDTO> getCalculatorFieldDTOs() {
+        return calculatorFields;
     }
 
-    public void setCalculatorFieldsDTOs(Set<CalculatorFieldDTO> calculatorFieldDTOS) {
-        this.calculatorFieldDTOS = calculatorFieldDTOS;
+    public void setCalculatorFieldDTOs(Set<CalculatorFieldDTO> calculatorFieldDTOs) {
+        this.calculatorFields = calculatorFieldDTOs;
     }
 }

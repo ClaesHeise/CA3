@@ -10,12 +10,14 @@ public class CalculatorFieldDTO {
     private String keyword;
     private String formula;
     private Set<String> tags;
+    private boolean isSingleInput;
 
-    public CalculatorFieldDTO(Long id, String keyword, String formula, Set<String> tags) {
+    public CalculatorFieldDTO(Long id, String keyword, String formula, Set<String> tags, boolean isSingleInput) {
         this.id = id;
         this.keyword = keyword;
         this.formula = formula;
         this.tags = tags;
+        this.isSingleInput = isSingleInput;
     }
 
     public CalculatorFieldDTO(CalculatorField calculatorField) {
@@ -24,6 +26,7 @@ public class CalculatorFieldDTO {
         this.keyword = calculatorField.getKeyword();
         this.formula = calculatorField.getFormula();
         this.tags = calculatorField.getTags();
+        this.isSingleInput = calculatorField.isSingleInput();
     }
 
     public static Set<CalculatorFieldDTO> getDtos(Set<CalculatorField> calculatorField){
@@ -62,5 +65,13 @@ public class CalculatorFieldDTO {
 
     public void setTags(Set<String> tags) {
         this.tags = tags;
+    }
+
+    public boolean isSingleInput() {
+        return isSingleInput;
+    }
+
+    public void setSingleInput(boolean singleInput) {
+        isSingleInput = singleInput;
     }
 }

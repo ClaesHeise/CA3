@@ -31,9 +31,8 @@ public class Populator {
         TeacherFacade tf = TeacherFacade.getTeacherFacade(emf);
         TopicFacade tof = TopicFacade.getTopicFacade(emf);
         Set<String> tags1 = new HashSet<>();
-        tags1.add("a");
-        tags1.add("b");
-        CalculatorField calculatorField1 = new CalculatorField("expression", "a+b", tags1);
+        tags1.add("+");
+        CalculatorField calculatorField1 = new CalculatorField("expression", "", tags1, true);
         Set<CalculatorField> calculatorFields1 = new HashSet<>();
         calculatorFields1.add(calculatorField1);
         Calculator calculator1 = new Calculator("Addition", calculatorFields1);
@@ -42,7 +41,7 @@ public class Populator {
                 ", you will now have 5 apples, this can be represented by: 2 + 3 = 5", "a + b = c", "/arithmetic/add", calculator1);
         Set<String> tags2 = new HashSet<>();
         tags2.add("fn");
-        CalculatorField calculatorField2 = new CalculatorField("number", "fn", tags2);
+        CalculatorField calculatorField2 = new CalculatorField("number", "fn", tags2, false);
         Set<CalculatorField> calculatorFields2 = new HashSet<>();
         calculatorFields2.add(calculatorField2);
         Calculator calculator2 = new Calculator("Fibonacci", calculatorFields2);

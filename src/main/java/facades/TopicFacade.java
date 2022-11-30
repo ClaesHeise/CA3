@@ -46,8 +46,8 @@ public class TopicFacade {
 
     public TopicDTO createTopic(TopicDTO topicDTO) {
         Set<CalculatorField> calculatorFields = new HashSet<>();
-        for (CalculatorFieldDTO calculatorFieldDTO : topicDTO.getCalculatorDTO().getCalculatorFieldsDTOs()) {
-            calculatorFields.add(new CalculatorField(calculatorFieldDTO.getId(), calculatorFieldDTO.getKeyword(), calculatorFieldDTO.getFormula(), calculatorFieldDTO.getTags()));
+        for (CalculatorFieldDTO calculatorFieldDTO : topicDTO.getCalculatorDTO().getCalculatorFieldDTOs()) {
+            calculatorFields.add(new CalculatorField(calculatorFieldDTO.getId(), calculatorFieldDTO.getKeyword(), calculatorFieldDTO.getFormula(), calculatorFieldDTO.getTags(), calculatorFieldDTO.isSingleInput()));
         }
         CalculatorDTO calculatorDTO = topicDTO.getCalculatorDTO();
         Calculator calculator = new Calculator(calculatorDTO.getName(), calculatorFields);
@@ -69,8 +69,8 @@ public class TopicFacade {
 
     public void addCalculator(CalculatorDTO calculatorDTO) {
         Set<CalculatorField> calculatorFields = new HashSet<>();
-        for (CalculatorFieldDTO calculatorFieldDTO : calculatorDTO.getCalculatorFieldsDTOs()) {
-            calculatorFields.add(new CalculatorField(calculatorFieldDTO.getId(), calculatorFieldDTO.getKeyword(), calculatorFieldDTO.getFormula(), calculatorFieldDTO.getTags()));
+        for (CalculatorFieldDTO calculatorFieldDTO : calculatorDTO.getCalculatorFieldDTOs()) {
+            calculatorFields.add(new CalculatorField(calculatorFieldDTO.getId(), calculatorFieldDTO.getKeyword(), calculatorFieldDTO.getFormula(), calculatorFieldDTO.getTags(), calculatorFieldDTO.isSingleInput()));
         }
         EntityManager em = getEntityManager();
         try {

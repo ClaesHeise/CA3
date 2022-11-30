@@ -2,9 +2,6 @@ package dtos;
 
 import entities.Topic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TopicDTO {
     private String name;
 
@@ -16,7 +13,7 @@ public class TopicDTO {
 
     private String calculatorURL;
 
-    private CalculatorDTO calculatorDTO;
+    private CalculatorDTO calculator;
 
     public TopicDTO(String name, String description, String example, String formula, String calculatorURL, CalculatorDTO calculatorDTO) {
         this.name = name;
@@ -24,7 +21,7 @@ public class TopicDTO {
         this.example = example;
         this.formula = formula;
         this.calculatorURL = calculatorURL;
-        this.calculatorDTO = calculatorDTO;
+        this.calculator = calculatorDTO;
     }
 
 //    public static List<TeacherDTO> getDtos(List<Topic> rms){
@@ -41,7 +38,7 @@ public class TopicDTO {
         this.example = topic.getExample();
         this.formula = topic.getFormula();
         this.calculatorURL = topic.getCalculatorURL();
-        this.calculatorDTO = new CalculatorDTO(topic.getCalculator());
+        this.calculator = new CalculatorDTO(topic.getCalculator());
     }
 
     public String getName() {
@@ -85,11 +82,11 @@ public class TopicDTO {
     }
 
     public CalculatorDTO getCalculatorDTO() {
-        return calculatorDTO;
+        return calculator;
     }
 
     public void setCalculatorDTO(CalculatorDTO calculatorDTO) {
-        this.calculatorDTO = calculatorDTO;
+        this.calculator = calculatorDTO;
     }
 
     @Override
@@ -100,7 +97,7 @@ public class TopicDTO {
                 ", example='" + example + '\'' +
                 ", formula='" + formula + '\'' +
                 ", calculatorURL='" + calculatorURL + '\'' +
-                ", calculatorDTO=" + calculatorDTO +
+                ", calculatorDTO=" + calculator +
                 '}';
     }
 }

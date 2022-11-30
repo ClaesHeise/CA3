@@ -17,21 +17,24 @@ public class CalculatorField {
     private String formula;
     @ElementCollection
     private Set<String> tags;
+    private boolean isSingleInput;
 
     public CalculatorField() {
     }
 
-    public CalculatorField(Long id, String keyword, String formula, Set<String> tags) {
+    public CalculatorField(Long id, String keyword, String formula, Set<String> tags, boolean isSingleInput) {
         this.id = id;
         this.keyword = keyword;
         this.formula = formula;
         this.tags = tags;
+        this.isSingleInput = isSingleInput;
     }
 
-    public CalculatorField(String keyword, String formula, Set<String> tags) {
+    public CalculatorField(String keyword, String formula, Set<String> tags, boolean isSingleInput) {
         this.keyword = keyword;
         this.formula = formula;
         this.tags = tags;
+        this.isSingleInput = isSingleInput;
     }
 
     public Long getId() {
@@ -72,6 +75,14 @@ public class CalculatorField {
 
     public void setTags(Set<String> tags) {
         this.tags = tags;
+    }
+
+    public boolean isSingleInput() {
+        return isSingleInput;
+    }
+
+    public void setSingleInput(boolean singleInput) {
+        isSingleInput = singleInput;
     }
 
     @Override
