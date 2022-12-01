@@ -37,6 +37,7 @@ public class UserResource {
         Response deleted = FACADE.delete(username);
         return Response.ok().entity(GSON.toJson(deleted)).build();
     }
+    // int id måske skal den være bav ved (String password)
     @PUT
     @Path("/{update_password}")
     @Produces({MediaType.APPLICATION_JSON})

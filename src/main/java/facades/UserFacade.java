@@ -67,6 +67,7 @@ public class UserFacade {
         return user;
     }
 
+    //int id  bav ved (String password) måske skal den være der
     public void updateUserPassword(String username, String password)  {
         EntityManager em = emf.createEntityManager();
         User user = em.find(User.class, username);
