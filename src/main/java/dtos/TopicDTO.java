@@ -24,7 +24,15 @@ public class TopicDTO {
         this.calculator = calculatorDTO;
     }
 
-//    public static List<TeacherDTO> getDtos(List<Topic> rms){
+    public TopicDTO(String name, String description, String example, String formula, String calculatorURL) {
+        this.name = name;
+        this.description = description;
+        this.example = example;
+        this.formula = formula;
+        this.calculatorURL = calculatorURL;
+    }
+
+    //    public static List<TeacherDTO> getDtos(List<Topic> rms){
 //        List<TeacherDTO> rmdtos = new ArrayList();
 //        rms.forEach(rm->rmdtos.add(new TeacherDTO(rm)));
 //        return rmdtos;

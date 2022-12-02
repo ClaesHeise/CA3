@@ -17,20 +17,23 @@ package rest;
 //import java.awt.*;
 //import java.util.ArrayList;
 
-import javax.json.JsonObject;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
+import dtos.CalculatorDTO;
 import dtos.TopicDTO;
+import entities.Calculator;
+import entities.CalculatorField;
 import errorhandling.API_Exception;
 import facades.TopicFacade;
 import utils.EMF_Creator;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Path("topic")
 public class TopicResource {
@@ -54,14 +57,69 @@ public class TopicResource {
         return Response.ok().entity(GSON.toJson(FACADE.getTopicByName(name))).build();
     }
 
-//    @PUT
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response updateTopic(String jsonString) throws API_Exception {
-////        TopicDTO topicDTO;
-////        try {
-////            JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
-////            topicDTO = new TopicDTO(json.get(""))
-////        }
-//    }
+    // Get all calculator
+    // Add topic
+    // Change topic
+    // Delete topic
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addTopic(String jsonString) throws API_Exception {
+        TopicDTO topicDTO;
+        try {
+//            TopicDTO getCalc = FACADE.getTopicByName("Addition"); // ToDo remove this
+            JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
+            String calcName = json.get("calcName").getAsString();
+            Set<String> tags = new HashSet<>();
+            for(JsonElement s : json.get("tags").getAsJsonArray()){
+                tags.add(s.getAsString());
+            }
+            CalculatorField calcField = new CalculatorField(json.get("keyword").getAsString(),json.get("calcFormula").getAsString(),tags,json.get("isSingleInput").getAsBoolean());
+            Set<CalculatorField> calcFields = new HashSet<>();
+            calcFields.add(calcField);
+            CalculatorDTO calcDTO = new CalculatorDTO(new Calculator(calcName,calcFields));
+            System.out.println(json.get("name").getAsString()+json.get("description").getAsString()+
+                    json.get("example").getAsString()+json.get("formula").getAsString()+json.get("calculatorURL").getAsString());
+            topicDTO = new TopicDTO(json.get("name").getAsString(), json.get("description").getAsString(),
+                    json.get("example").getAsString(), json.get("formula").getAsString(), json.get("calculatorURL").getAsString(), calcDTO);
+            FACADE.createTopic(topicDTO);
+        } catch (Exception e) {
+            throw new API_Exception("Malformed JSON Suplied",400,e);
+        }
+        return Response.ok().entity(GSON.toJson(topicDTO)).build();
+    }
+
+
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateTopic(String jsonString) throws API_Exception {
+        TopicDTO topicDTO;
+        try {
+            JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
+            topicDTO = new TopicDTO(json.get("name").getAsString(), json.get("description").getAsString(),
+                    json.get("example").getAsString(), json.get("formula").getAsString(), json.get("calculatorURL").getAsString());
+            FACADE.updateTopic(topicDTO);
+        } catch (Exception e) {
+            throw new API_Exception("Malformed JSON Suplied",400,e);
+        }
+        return Response.ok().entity(GSON.toJson(topicDTO)).build();
+    }
+
+    @DELETE
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response delete(String jsonString) throws API_Exception {
+        String name;
+        try {
+            JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
+            name = json.get("name").getAsString();
+            System.out.println(name);
+            FACADE.deleteTopic(name);
+        } catch (Exception e) {
+            throw new API_Exception("Malformed JSON Suplied",400,e);
+        }
+        return Response.ok().entity(GSON.toJson(name)).build();
+    }
 }

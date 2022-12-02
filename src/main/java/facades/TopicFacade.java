@@ -6,6 +6,7 @@ import dtos.TopicDTO;
 import entities.Calculator;
 import entities.CalculatorField;
 import entities.Topic;
+import entities.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -113,20 +114,32 @@ public class TopicFacade {
             topic.setExample(topicDTO.getExample());
             topic.setFormula(topicDTO.getFormula());
             topic.setCalculatorURL(topicDTO.getCalculatorURL());
-            Calculator calculator = new Calculator();
-            calculator.setName(topicDTO.getCalculatorDTO().getName());
-            topic.setCalculator(calculator);
+//            Calculator calculator = new Calculator();
+//            calculator.setName(topicDTO.getCalculatorDTO().getName());
+//            topic.setCalculator(calculator);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
     }
+//
+//    public void deleteTopic(String name) {
+//        EntityManager em = getEntityManager();
+//        Query query =  em.createQuery("DELETE FROM Topic t WHERE t.name = :n", Topic.class);
+//        int deleteCount = query.setParameter("n", name).executeUpdate();
+//        System.out.println(deleteCount);
+//        em.close();
+//    }
 
     public void deleteTopic(String name) {
-        EntityManager em = getEntityManager();
-        Query query =  em.createQuery("DELETE FROM Topic t WHERE t.name = :n", Topic.class);
-        int deleteCount = query.setParameter("n", name).executeUpdate();
-        System.out.println(deleteCount);
-        em.close();
+        EntityManager em = emf.createEntityManager();
+        Topic topic = em.find(Topic.class, name);
+        try {
+            em.getTransaction().begin();
+            em.remove(topic);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
     }
 }
