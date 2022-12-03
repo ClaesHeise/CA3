@@ -2,7 +2,11 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import dtos.TopicDTO;
 import dtos.UserDTO;
+import errorhandling.API_Exception;
 import utils.EMF_Creator;
 
 import javax.persistence.EntityManagerFactory;
@@ -37,15 +41,18 @@ public class UserResource {
         Response deleted = FACADE.delete(username);
         return Response.ok().entity(GSON.toJson(deleted)).build();
     }
-    // int id måske skal den være bav ved (String password)
     @PUT
-    @Path("/{update_password}")
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_JSON})
-    public Response update_password(@PathParam("update_password") String password) throws EntityNotFoundException {
-        UserDTO t = GSON.fromJson(password, UserDTO.class);
-        t.setUsername(password); //Should be implemented
-        Response updated = FACADE.update_password(String.valueOf(t));
-        return Response.ok().entity(GSON.toJson(updated)).build();
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updatePassword(String jsonString) throws API_Exception {
+        UserDTO userDTO;
+        try {
+            JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
+            userDTO = new UserDTO(json.get("name").getAsString(), json.get("password").getAsString());
+            FACADE.updatePassword(String.valueOf(userDTO));
+        } catch (Exception e) {
+            throw new API_Exception("Malformed JSON Suplied",400,e);
+        }
+        return Response.ok().entity(GSON.toJson(userDTO)).build();
     }
 }

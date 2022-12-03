@@ -40,6 +40,8 @@ public class UserDTO {
         this.password = user.getPassword();
         this.role = user.getRolesAsStrings();
     }
+    public UserDTO(String name, String password) {
+    }
 
     public String getUsername() {
         return username;
