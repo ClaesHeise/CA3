@@ -37,6 +37,13 @@ public class CalculatorField {
         this.isSingleInput = isSingleInput;
     }
 
+    public void assingCalculator(Calculator calculator){
+        if(calculator != null){
+            this.calculator = calculator;
+            calculator.getCalculatorFields().add(this);
+        }
+    }
+
     public Long getId() {
         return id;
     }

@@ -84,8 +84,10 @@ public class TopicResource {
             }
             CalculatorField calcField = new CalculatorField(json.get("keyword").getAsString(),json.get("calcFormula").getAsString(),tags,json.get("isSingleInput").getAsBoolean());
             Set<CalculatorField> calcFields = new HashSet<>();
+            Calculator calculator = new Calculator(calcName);
+            calcField.assingCalculator(calculator);
             calcFields.add(calcField);
-            CalculatorDTO calcDTO = new CalculatorDTO(new Calculator(calcName,calcFields));
+            CalculatorDTO calcDTO = new CalculatorDTO(calculator);
             System.out.println(json.get("name").getAsString()+json.get("description").getAsString()+
                     json.get("example").getAsString()+json.get("formula").getAsString()+json.get("calculatorURL").getAsString());
             topicDTO = new TopicDTO(json.get("name").getAsString(), json.get("description").getAsString(),

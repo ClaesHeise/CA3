@@ -46,13 +46,17 @@ public class TopicFacade {
     }
 
     public TopicDTO createTopic(TopicDTO topicDTO) {
+        CalculatorDTO calculatorDTO = topicDTO.getCalculatorDTO();
+        Calculator calculator = new Calculator(calculatorDTO.getName());
         Set<CalculatorField> calculatorFields = new HashSet<>();
         for (CalculatorFieldDTO calculatorFieldDTO : topicDTO.getCalculatorDTO().getCalculatorFieldDTOs()) {
-            calculatorFields.add(new CalculatorField(calculatorFieldDTO.getId(), calculatorFieldDTO.getKeyword(), calculatorFieldDTO.getFormula(), calculatorFieldDTO.getTags(), calculatorFieldDTO.isSingleInput()));
+            CalculatorField cf = new CalculatorField(calculatorFieldDTO.getId(), calculatorFieldDTO.getKeyword(), calculatorFieldDTO.getFormula(), calculatorFieldDTO.getTags(), calculatorFieldDTO.isSingleInput());
+            cf.assingCalculator(calculator);
+            calculatorFields.add(cf);
+
         }
-        CalculatorDTO calculatorDTO = topicDTO.getCalculatorDTO();
-        Calculator calculator = new Calculator(calculatorDTO.getName(), calculatorFields);
-        Topic topic = new Topic(topicDTO.getName(), topicDTO.getDescription(), topicDTO.getExample(), topicDTO.getFormula(), topicDTO.getCalculatorURL(), calculator);
+        Topic topic = new Topic(topicDTO.getName(), topicDTO.getDescription(), topicDTO.getExample(), topicDTO.getFormula(), topicDTO.getCalculatorURL());
+        topic.assingCalculator(calculator);
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -68,20 +72,20 @@ public class TopicFacade {
         return new TopicDTO(topic);
     }
 
-    public void addCalculator(CalculatorDTO calculatorDTO) {
-        Set<CalculatorField> calculatorFields = new HashSet<>();
-        for (CalculatorFieldDTO calculatorFieldDTO : calculatorDTO.getCalculatorFieldDTOs()) {
-            calculatorFields.add(new CalculatorField(calculatorFieldDTO.getId(), calculatorFieldDTO.getKeyword(), calculatorFieldDTO.getFormula(), calculatorFieldDTO.getTags(), calculatorFieldDTO.isSingleInput()));
-        }
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.persist(new Calculator(calculatorDTO.getName(), calculatorFields));
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
-    }
+//    public void addCalculator(CalculatorDTO calculatorDTO) {
+//        Set<CalculatorField> calculatorFields = new HashSet<>();
+//        for (CalculatorFieldDTO calculatorFieldDTO : calculatorDTO.getCalculatorFieldDTOs()) {
+//            calculatorFields.add(new CalculatorField(calculatorFieldDTO.getId(), calculatorFieldDTO.getKeyword(), calculatorFieldDTO.getFormula(), calculatorFieldDTO.getTags(), calculatorFieldDTO.isSingleInput()));
+//        }
+//        EntityManager em = getEntityManager();
+//        try {
+//            em.getTransaction().begin();
+//            em.persist(new Calculator(calculatorDTO.getName(), calculatorFields));
+//            em.getTransaction().commit();
+//        } finally {
+//            em.close();
+//        }
+//    }
 
     public List<TopicDTO> getAllTopics() {
         EntityManager em = getEntityManager();

@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -14,16 +15,17 @@ public class Calculator {
     @NotNull
     private String name;
     @OneToMany(mappedBy = "calculator")
-    private Set<CalculatorField> calculatorFields;
+    private Set<CalculatorField> calculatorFields = new LinkedHashSet<>();
     @OneToMany(mappedBy = "calculator")
-    private Set<Topic> topics;
+    private Set<Topic> topics = new LinkedHashSet<>();
 
-    public Calculator(String name, Set<CalculatorField> calculatorFields) {
+    public Calculator(String name) {
+//                      Set<CalculatorField> calculatorFields) {
         this.name = name;
-        this.calculatorFields = calculatorFields;
-        for (CalculatorField calculatorField : calculatorFields) {
-            calculatorField.setCalculator(this);
-        }
+//        this.calculatorFields = calculatorFields;
+//        for (CalculatorField calculatorField : calculatorFields) {
+//            calculatorField.setCalculator(this);
+//        }
     }
 
     public Calculator() {

@@ -36,6 +36,10 @@ public class Topic implements Serializable {
     @JoinColumn(name = "calculator_name")
     private Calculator calculator;
 
+    @ManyToOne
+    @JoinColumn(name = "subject")
+    private Subject subject;
+
     public Topic(String name, String description, String example, String formula, String calculatorURL) {
         this.name = name;
         this.description = description;
@@ -44,14 +48,14 @@ public class Topic implements Serializable {
         this.calculatorURL = calculatorURL;
     }
 
-    public Topic(String name, String description, String example, String formula, String calculatorURL, Calculator calculator) {
-        this.name = name;
-        this.description = description;
-        this.example = example;
-        this.formula = formula;
-        this.calculatorURL = calculatorURL;
-        this.calculator = calculator;
-    }
+//    public Topic(String name, String description, String example, String formula, String calculatorURL, Calculator calculator) {
+//        this.name = name;
+//        this.description = description;
+//        this.example = example;
+//        this.formula = formula;
+//        this.calculatorURL = calculatorURL;
+//        this.calculator = calculator;
+//    }
 
     public Topic() {}
 
@@ -103,6 +107,23 @@ public class Topic implements Serializable {
         this.calculator = calculator;
     }
 
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void assingSubject(Subject subject){
+        if(subject != null){
+            this.subject = subject;
+            subject.getTopicList().add(this);
+        }
+    }
+
+    public void assingCalculator(Calculator calculator){
+        if(calculator != null){
+            this.calculator = calculator;
+            calculator.getTopics().add(this);
+        }
+    }
     @Override
     public String toString() {
         return "Topic{" +
