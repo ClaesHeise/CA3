@@ -95,6 +95,18 @@ public class TopicFacade {
         return topicDTOS;
     }
 
+    public List<CalculatorDTO> getAllCalcs() {
+        EntityManager em = getEntityManager();
+        TypedQuery<Calculator> query =  em.createQuery("SELECT c FROM Calculator c", Calculator.class);
+        List<Calculator> calculators = query.getResultList();
+        List<CalculatorDTO> calculatorDTOS = new ArrayList<>();
+        for(Calculator c : calculators){
+            calculatorDTOS.add(new CalculatorDTO(c));
+        }
+        em.close();
+        return calculatorDTOS;
+    }
+
     public TopicDTO getTopicByName(String name) {
         EntityManager em = getEntityManager();
         TypedQuery<Topic> query = em.createQuery("SELECT t FROM Topic t WHERE t.name = :nt", Topic.class)

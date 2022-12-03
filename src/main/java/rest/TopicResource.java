@@ -51,6 +51,13 @@ public class TopicResource {
     }
 
     @GET
+    @Path("allCalc")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getAllCalcs() throws EntityNotFoundException {
+        return Response.ok().entity(GSON.toJson(FACADE.getAllCalcs())).build();
+    }
+
+    @GET
     @Path("/{name}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getByName(@PathParam("name") String name) throws EntityNotFoundException {
