@@ -8,16 +8,16 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-    @Table(name = "subject")
-    public class Subject implements Serializable {
+@Table(name = "Subject")
+public class Subject implements Serializable {
 
-        private static final long serialVersionUID = 1L;
-        @Id
-        @NotNull
-        private String name;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @NotNull
+    private String name;
 
-        @OneToMany(mappedBy = "subject")
-        private Set<Topic> topicList = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "subject")
+    private Set<Topic> topicList = new LinkedHashSet<>();
 
 
     public Subject(String name) {
@@ -48,7 +48,7 @@ import java.util.Set;
         public String toString() {
             return "Subject{" +
                     "name='" + name + '\'' +
-                    ", subjectList=" + topicList +
+                    ", subjectList=" + topicList.size() +
                     '}';
     }
 }

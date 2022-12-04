@@ -2,11 +2,9 @@ package facades;
 
 import dtos.CalculatorDTO;
 import dtos.CalculatorFieldDTO;
+import dtos.SubjectDTO;
 import dtos.TopicDTO;
-import entities.Calculator;
-import entities.CalculatorField;
-import entities.Topic;
-import entities.User;
+import entities.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -58,6 +56,8 @@ public class TopicFacade {
         Topic topic = new Topic(topicDTO.getName(), topicDTO.getDescription(), topicDTO.getExample(), topicDTO.getFormula(), topicDTO.getCalculatorURL());
         topic.assingCalculator(calculator);
         EntityManager em = getEntityManager();
+        Subject subject = em.find(Subject.class, "Math"); // ToDo change this, if more subjects were to be added
+        topic.assingSubject(subject);
         try {
             em.getTransaction().begin();
             em.persist(calculator);
@@ -109,6 +109,28 @@ public class TopicFacade {
         }
         em.close();
         return calculatorDTOS;
+    }
+
+    public List<SubjectDTO> getSubjects(){
+        EntityManager em = getEntityManager();
+        TypedQuery<Subject> query =  em.createQuery("SELECT s FROM Subject s", Subject.class);
+        List<Subject> subjects = query.getResultList();
+        List<SubjectDTO> subjectDTOS = new ArrayList<>();
+        for(Subject s : subjects){
+            subjectDTOS.add(new SubjectDTO(s));
+        }
+        em.close();
+        return subjectDTOS;
+    }
+
+    public SubjectDTO getSubjects(String name){
+        EntityManager em = getEntityManager();
+        TypedQuery<Subject> query = em.createQuery("SELECT s FROM Subject s WHERE s.name = :nt", Subject.class)
+                .setParameter("nt", name);
+        Subject subject = query.getSingleResult();
+        SubjectDTO subjectDTO = new SubjectDTO(subject);
+        em.close();
+        return subjectDTO;
     }
 
     public TopicDTO getTopicByName(String name) {

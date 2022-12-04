@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "topic")
+@Table(name = "Topic")
 public class Topic implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,7 +37,7 @@ public class Topic implements Serializable {
     private Calculator calculator;
 
     @ManyToOne
-    @JoinColumn(name = "subject")
+    @JoinColumn(name = "subject_name")
     private Subject subject;
 
     public Topic(String name, String description, String example, String formula, String calculatorURL) {

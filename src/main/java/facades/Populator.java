@@ -27,12 +27,14 @@ public class Populator {
 //        FacadeExample fe = FacadeExample.getFacadeExample(emf);
         UserFacade tf = UserFacade.getUserFacade(emf);
         TopicFacade tof = TopicFacade.getTopicFacade(emf);
+        Subject subject = new Subject("Math");
+        Role role = new Role("teacher");
+        tf.createRoleAndSubject(subject, role);
         Set<String> tags1 = new HashSet<>();
         tags1.add("+");
         CalculatorField calculatorField1 = new CalculatorField("expression", "", tags1, true);
         Set<CalculatorField> calculatorFields1 = new HashSet<>();
         calculatorFields1.add(calculatorField1);
-        Subject subject = new Subject("Math");
         Calculator calculator1 = new Calculator("Addition");
         calculatorField1.assingCalculator(calculator1);
         Topic topicAddition = new Topic("Addition", "Addition in math is a process of combining two or more numbers. Addends are the numbers added, and the result or the final answer " +
@@ -53,6 +55,7 @@ public class Populator {
                 "number is equal to the sum of the preceding two numbers.", "First 14 numbers:\n0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ...\n" +
                 "Example on how to get to 7th number: 5th number + 6th number = 7th number => 3 + 5 = 8", "Fn = Fn-1 + Fn-2", "/numbertheory/fibonacci/number");
         topicFibonacci.assingSubject(subject);
+        System.out.println(subject.toString());
         topicFibonacci.assingCalculator(calculator2);
         tof.createTopic(new TopicDTO(topicAddition));
         tof.createTopic(new TopicDTO(topicFibonacci));

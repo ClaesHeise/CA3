@@ -2,6 +2,7 @@ package facades;
 
 import dtos.UserDTO;
 import entities.Role;
+import entities.Subject;
 import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -40,7 +41,7 @@ public class UserFacade {
         EntityManager em = getEntityManager();
         User user = new User(userDTO.getUsername(), userDTO.getPassword());
 //        User user = em.find(User.class, userDTO.getUsername());
-        Role role = em.find(Role.class, "teacher");
+        Role role = em.find(Role.class, "teacher"); //ToDo change this, if more roles where added
         user.addRole(role);
         try {
             em.getTransaction().begin();
@@ -50,6 +51,18 @@ public class UserFacade {
             em.close();
         }
         return new UserDTO(user);
+    }
+
+    public void createRoleAndSubject(Subject subject, Role role){ //Only for backend devs
+        EntityManager em = getEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.persist(subject);
+            em.persist(role);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
     }
 
     public User getVeryfiedUser(String username, String password) throws AuthenticationException {

@@ -1,6 +1,10 @@
 package dtos;
 
+import entities.CalculatorField;
 import entities.Topic;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class TopicDTO {
     private String name;
@@ -95,6 +99,15 @@ public class TopicDTO {
 
     public void setCalculatorDTO(CalculatorDTO calculatorDTO) {
         this.calculator = calculatorDTO;
+    }
+
+    public static Set<TopicDTO> getDtos(Set<Topic> topics){
+        Set<CalculatorFieldDTO> calculatorFieldDTOS = new HashSet<>();
+        Set<TopicDTO> topicDTOS = new HashSet<>();
+        for(Topic t : topics){
+            topicDTOS.add(new TopicDTO(t));
+        }
+        return topicDTOS;
     }
 
     @Override

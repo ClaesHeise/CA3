@@ -64,6 +64,20 @@ public class TopicResource {
         return Response.ok().entity(GSON.toJson(FACADE.getTopicByName(name))).build();
     }
 
+    @GET
+    @Path("allSubjects")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getAllSubject() throws EntityNotFoundException {
+        return Response.ok().entity(GSON.toJson(FACADE.getSubjects())).build();
+    }
+
+    @GET
+    @Path("/subject/{name}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getSubjectByName(@PathParam("name") String name) throws EntityNotFoundException {
+        return Response.ok().entity(GSON.toJson(FACADE.getSubjects(name))).build();
+    }
+
     // Get all calculator
     // Add topic
     // Change topic

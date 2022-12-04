@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(name = "Field")
 public class CalculatorField {
     private static final long serialVersionUID = 1L;
 

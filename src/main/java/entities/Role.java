@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  * @author Plaul
  */
 @Entity
-@Table(name = "roles")
+@Table(name = "Role")
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
