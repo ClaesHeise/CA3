@@ -97,7 +97,6 @@ public class CalculatorField {
     public String toString() {
         return "CalculatorField{" +
                 "id=" + id +
-                ", calculator=" + calculator +
                 ", keyword='" + keyword + '\'' +
                 ", formula='" + formula + '\'' +
                 ", tags=" + tags +

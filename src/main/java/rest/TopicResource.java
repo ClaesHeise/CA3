@@ -102,8 +102,6 @@ public class TopicResource {
             calcField.assingCalculator(calculator);
             calcFields.add(calcField);
             CalculatorDTO calcDTO = new CalculatorDTO(calculator);
-            System.out.println(json.get("name").getAsString()+json.get("description").getAsString()+
-                    json.get("example").getAsString()+json.get("formula").getAsString()+json.get("calculatorURL").getAsString());
             topicDTO = new TopicDTO(json.get("name").getAsString(), json.get("description").getAsString(),
                     json.get("example").getAsString(), json.get("formula").getAsString(), json.get("calculatorURL").getAsString(), calcDTO);
             FACADE.createTopic(topicDTO);
