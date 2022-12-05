@@ -1,11 +1,12 @@
 package rest;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
+import dtos.CalculatorDTO;
 import dtos.TopicDTO;
 import dtos.UserDTO;
+import entities.Calculator;
+import entities.CalculatorField;
+import entities.User;
 import errorhandling.API_Exception;
 import facades.UserFacade;
 import utils.EMF_Creator;
@@ -15,6 +16,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashSet;
+import java.util.Set;
 
 @Path("user")
 public class UserResource {
@@ -52,6 +55,23 @@ public class UserResource {
             JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
             userDTO = new UserDTO(json.get("name").getAsString(), json.get("password").getAsString());
             FACADE.updateUserPassword(userDTO);
+        } catch (Exception e) {
+            throw new API_Exception("Malformed JSON Suplied",400,e);
+        }
+        return Response.ok().entity(GSON.toJson(userDTO)).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addUser(String jsonString) throws API_Exception {
+        UserDTO userDTO;
+        try {
+//            TopicDTO getCalc = FACADE.getTopicByName("Addition"); // ToDo remove this
+            JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
+            String calcName = json.get("calcName").getAsString();
+            userDTO = new UserDTO(json.get("username").getAsString(), json.get("password").getAsString());
+            FACADE.createUser(userDTO);
         } catch (Exception e) {
             throw new API_Exception("Malformed JSON Suplied",400,e);
         }
