@@ -6,10 +6,7 @@ import dtos.SubjectDTO;
 import dtos.TopicDTO;
 import entities.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -45,7 +42,7 @@ public class TopicFacade {
 
     public TopicDTO createTopic(TopicDTO topicDTO) {
         CalculatorDTO calculatorDTO = topicDTO.getCalculatorDTO();
-        Calculator calculator = new Calculator(calculatorDTO.getName());
+        Calculator calculator = new Calculator(calculatorDTO.getName(), calculatorDTO.getCalculatorURL());
         Set<CalculatorField> calculatorFields = new HashSet<>();
         for (CalculatorFieldDTO calculatorFieldDTO : topicDTO.getCalculatorDTO().getCalculatorFieldDTOs()) {
             CalculatorField cf = new CalculatorField(calculatorFieldDTO.getId(), calculatorFieldDTO.getKeyword(), calculatorFieldDTO.getFormula(), calculatorFieldDTO.getTags(), calculatorFieldDTO.isSingleInput());
@@ -53,7 +50,7 @@ public class TopicFacade {
             calculatorFields.add(cf);
 
         }
-        Topic topic = new Topic(topicDTO.getName(), topicDTO.getDescription(), topicDTO.getExample(), topicDTO.getFormula(), topicDTO.getCalculatorURL());
+        Topic topic = new Topic(topicDTO.getName(), topicDTO.getDescription(), topicDTO.getExample(), topicDTO.getFormula());
         topic.assingCalculator(calculator);
         EntityManager em = getEntityManager();
         Subject subject = em.find(Subject.class, "Math"); // ToDo change this, if more subjects were to be added
@@ -64,6 +61,29 @@ public class TopicFacade {
             for (CalculatorField calculatorField : calculatorFields) {
                 em.persist(calculatorField);
             }
+            em.persist(topic);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new TopicDTO(topic);
+    }
+
+    public TopicDTO createTopic(TopicDTO topicDTO, String subjectName) throws EntityExistsException{
+        EntityManager em = getEntityManager();
+        Topic topic = new Topic(topicDTO.getName(), topicDTO.getDescription(), topicDTO.getExample(), topicDTO.getFormula());
+        String calculatorName = topicDTO.getCalculatorDTO().getName();
+        if (calculatorName != null) {
+            Calculator calculator = em.find(Calculator.class, calculatorName);
+            topic.setCalculator(calculator);
+        }
+        Subject subject = em.find(Subject.class, subjectName);
+        if (subject == null) {
+            subject = new Subject(subjectName);
+        }
+        topic.setSubject(subject);
+        try {
+            em.getTransaction().begin();
             em.persist(topic);
             em.getTransaction().commit();
         } finally {
@@ -143,22 +163,30 @@ public class TopicFacade {
         return topicDTO;
     }
 
-    public void updateTopic(TopicDTO topicDTO) {
+    public TopicDTO updateTopic(TopicDTO topicDTO, String subjectName) {
         EntityManager em = getEntityManager();
         Topic topic = em.find(Topic.class, topicDTO.getName());
+        topic.setDescription(topicDTO.getDescription());
+        topic.setExample(topicDTO.getExample());
+        topic.setFormula(topicDTO.getFormula());
+        String calculatorName = topicDTO.getCalculatorDTO().getName();
+        if (calculatorName != null) {
+            Calculator calculator = em.find(Calculator.class, calculatorName);
+            topic.setCalculator(calculator);
+        }
+        Subject subject = em.find(Subject.class, subjectName);
+        if (subject == null) {
+            subject = new Subject(subjectName);
+        }
+        topic.setSubject(subject);
         try {
             em.getTransaction().begin();
-            topic.setDescription(topicDTO.getDescription());
-            topic.setExample(topicDTO.getExample());
-            topic.setFormula(topicDTO.getFormula());
-            topic.setCalculatorURL(topicDTO.getCalculatorURL());
-//            Calculator calculator = new Calculator();
-//            calculator.setName(topicDTO.getCalculatorDTO().getName());
-//            topic.setCalculator(calculator);
+            em.merge(topic);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
+        return new TopicDTO(topic);
     }
 //
 //    public void deleteTopic(String name) {

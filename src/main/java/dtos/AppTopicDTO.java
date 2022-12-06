@@ -37,7 +37,7 @@ public class AppTopicDTO {
         this.description = topic.getDescription();
         this.example = topic.getExample();
         this.formula = topic.getFormula();
-        this.calculatorURL = topic.getCalculatorURL();
+        this.calculatorURL = topic.getCalculator().getCalculatorURL();
     }
 
     public String getName() {

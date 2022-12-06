@@ -29,26 +29,22 @@ public class Topic implements Serializable {
     @Column(name = "formula")
     private String formula;
 
-    @Column(name = "calc_url")
-    private String calculatorURL;
-
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "calculator_name")
     private Calculator calculator;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "subject_name")
     private Subject subject;
 
-    public Topic(String name, String description, String example, String formula, String calculatorURL) {
+    public Topic(String name, String description, String example, String formula) {
         this.name = name;
         this.description = description;
         this.example = example;
         this.formula = formula;
-        this.calculatorURL = calculatorURL;
     }
 
-//    public Topic(String name, String description, String example, String formula, String calculatorURL, Calculator calculator) {
+    //    public Topic(String name, String description, String example, String formula, String calculatorURL, Calculator calculator) {
 //        this.name = name;
 //        this.description = description;
 //        this.example = example;
@@ -91,24 +87,22 @@ public class Topic implements Serializable {
         this.formula = formula;
     }
 
-    public String getCalculatorURL() {
-        return calculatorURL;
-    }
-
-    public void setCalculatorURL(String calculatorURL) {
-        this.calculatorURL = calculatorURL;
-    }
-
     public Calculator getCalculator() {
         return calculator;
     }
 
     public void setCalculator(Calculator calculator) {
         this.calculator = calculator;
+        calculator.getTopics().add(this);
     }
 
     public Subject getSubject() {
         return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+        subject.getTopicList().add(this);
     }
 
     public void assingSubject(Subject subject){
@@ -131,7 +125,6 @@ public class Topic implements Serializable {
                 ", description='" + description + '\'' +
                 ", example='" + example + '\'' +
                 ", formula='" + formula + '\'' +
-                ", calculatorURL='" + calculatorURL + '\'' +
                 ", calculator=" + calculator +
                 '}';
     }

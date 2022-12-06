@@ -14,26 +14,21 @@ public class TopicDTO {
     private String example;
 
     private String formula;
-
-    private String calculatorURL;
-
     private CalculatorDTO calculator;
 
-    public TopicDTO(String name, String description, String example, String formula, String calculatorURL, CalculatorDTO calculatorDTO) {
+    public TopicDTO(String name, String description, String example, String formula, CalculatorDTO calculatorDTO) {
         this.name = name;
         this.description = description;
         this.example = example;
         this.formula = formula;
-        this.calculatorURL = calculatorURL;
         this.calculator = calculatorDTO;
     }
 
-    public TopicDTO(String name, String description, String example, String formula, String calculatorURL) {
+    public TopicDTO(String name, String description, String example, String formula) {
         this.name = name;
         this.description = description;
         this.example = example;
         this.formula = formula;
-        this.calculatorURL = calculatorURL;
     }
 
     //    public static List<TeacherDTO> getDtos(List<Topic> rms){
@@ -49,8 +44,9 @@ public class TopicDTO {
         this.description = topic.getDescription();
         this.example = topic.getExample();
         this.formula = topic.getFormula();
-        this.calculatorURL = topic.getCalculatorURL();
-        this.calculator = new CalculatorDTO(topic.getCalculator());
+        if (topic.getCalculator() != null) {
+            this.calculator = new CalculatorDTO(topic.getCalculator());
+        }
     }
 
     public String getName() {
@@ -85,14 +81,6 @@ public class TopicDTO {
         this.formula = formula;
     }
 
-    public String getCalculatorURL() {
-        return calculatorURL;
-    }
-
-    public void setCalculatorURL(String calculatorURL) {
-        this.calculatorURL = calculatorURL;
-    }
-
     public CalculatorDTO getCalculatorDTO() {
         return calculator;
     }
@@ -117,7 +105,6 @@ public class TopicDTO {
                 ", description='" + description + '\'' +
                 ", example='" + example + '\'' +
                 ", formula='" + formula + '\'' +
-                ", calculatorURL='" + calculatorURL + '\'' +
                 ", calculatorDTO=" + calculator +
                 '}';
     }
