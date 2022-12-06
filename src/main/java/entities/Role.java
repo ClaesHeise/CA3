@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "Role")
+@NamedQuery(name = "Role.deleteAllRows", query = "DELETE from Role")
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
