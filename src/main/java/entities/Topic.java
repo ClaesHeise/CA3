@@ -101,6 +101,7 @@ public class Topic implements Serializable {
     }
 
     public void setSubject(Subject subject) {
+        this.subject.getTopicList().remove(this);
         this.subject = subject;
         subject.getTopicList().add(this);
     }

@@ -7,10 +7,7 @@ import dtos.TopicDTO;
 import entities.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author lam@cphbusiness.dk
@@ -166,6 +163,7 @@ public class TopicFacade {
     public TopicDTO updateTopic(TopicDTO topicDTO, String subjectName) {
         EntityManager em = getEntityManager();
         Topic topic = em.find(Topic.class, topicDTO.getName());
+        String oldSubjectName = topic.getSubject().getName();
         topic.setDescription(topicDTO.getDescription());
         topic.setExample(topicDTO.getExample());
         topic.setFormula(topicDTO.getFormula());
@@ -182,11 +180,36 @@ public class TopicFacade {
         try {
             em.getTransaction().begin();
             em.merge(topic);
+            em.flush();
+            Subject oldSubject = em.find(Subject.class, oldSubjectName);
+//            System.out.println(oldSubject.getName()+": "+oldSubject.getTopicList().isEmpty()+", "+oldSubject.getTopicList().size());
+//            for (Topic t : oldSubject.getTopicList()) {
+//                System.out.println("topic"+t.getName());
+//            }
+            if (oldSubject.getTopicList().isEmpty()) {
+                em.remove(oldSubject);
+            }
             em.getTransaction().commit();
         } finally {
             em.close();
         }
+//        updateSubjectsIDK(oldSubjectName);
         return new TopicDTO(topic);
+    }
+
+    private void updateSubjectsIDK(String oldSubject) {
+        EntityManager em = getEntityManager();
+        Subject subject = em.find(Subject.class, oldSubject);
+        try {
+            em.getTransaction().begin();
+            System.out.println(subject.getName()+" size: "+subject.getTopicList().size());
+            if (subject.getTopicList().isEmpty() || subject.getTopicList().size() == 0) {
+                em.remove(subject);
+            }
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
     }
 //
 //    public void deleteTopic(String name) {
