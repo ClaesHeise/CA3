@@ -2,6 +2,8 @@ package rest;
 
 import entities.Role;
 
+import entities.Subject;
+import entities.Topic;
 import entities.User;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
@@ -67,16 +69,27 @@ public class LoginEndpointTest {
             //Delete existing users and roles to get a "fresh" database
             em.createNamedQuery("User.deleteAllRows").executeUpdate();
             em.createNamedQuery("Role.deleteAllRows").executeUpdate();
-            em.createQuery("delete from User ").executeUpdate();
-            em.createQuery("delete from Role").executeUpdate();
+            em.createNamedQuery("Topic.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Subject.deleteAllRows").executeUpdate();
+//            em.createQuery("delete from User ").executeUpdate();
+//            em.createQuery("delete from Role").executeUpdate();
             Role teacherRole = new Role("teacher");
             User user1 = new User("user", "test");
             User user2 = new User("user_name", "test");
+            Topic topic1 = new Topic("addition"," description","example","formula");
+            Topic topic2 = new Topic("fibonacci"," description","example","formula");
+            Subject subject1 = new Subject("math");
+            Subject subject2 = new Subject("physics");
+            topic1.assingSubject(subject1);
             user1.addRole(teacherRole);
             user2.addRole(teacherRole);
             em.persist(teacherRole);
             em.persist(user1);
             em.persist(user2);
+            em.persist(topic1);
+            em.persist(topic2);
+            em.persist(subject1);
+            em.persist(subject2);
             //System.out.println("Saved test data to database");
             em.getTransaction().commit();
         } finally {
@@ -103,9 +116,19 @@ public class LoginEndpointTest {
         securityToken = null;
     }
 
+
     @Test
     public void testlogin(){
         login("user", "test");
+    }
+
+    @Test
+    public void getAllTopics(){
+        given()
+                .when()
+                .get("/topic/all")
+                .then()
+                .statusCode(200);
     }
 
     @Test

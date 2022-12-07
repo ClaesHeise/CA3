@@ -9,6 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Subject")
+@NamedQuery(name = "Subject.deleteAllRows", query = "DELETE from Subject")
 public class Subject implements Serializable {
 
     private static final long serialVersionUID = 1L;

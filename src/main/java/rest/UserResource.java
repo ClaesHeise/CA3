@@ -53,8 +53,10 @@ public class UserResource {
         UserDTO userDTO;
         try {
             JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
-            userDTO = new UserDTO(json.get("name").getAsString(), json.get("password").getAsString());
-            FACADE.updateUserPassword(userDTO);
+            String name = json.get("name").getAsString();
+            String password = json.get("password").getAsString();
+            userDTO = new UserDTO(name, password);
+            FACADE.updateUserPassword(name, password);
         } catch (Exception e) {
             throw new API_Exception("Malformed JSON Suplied",400,e);
         }
@@ -67,10 +69,10 @@ public class UserResource {
     public Response addUser(String jsonString) throws API_Exception {
         UserDTO userDTO;
         try {
-//            TopicDTO getCalc = FACADE.getTopicByName("Addition"); // ToDo remove this
             JsonObject json = JsonParser.parseString(jsonString).getAsJsonObject();
-            String calcName = json.get("calcName").getAsString();
-            userDTO = new UserDTO(json.get("username").getAsString(), json.get("password").getAsString());
+            String name = json.get("name").getAsString();
+            String password = json.get("password").getAsString();
+            userDTO = new UserDTO(name, password);
             FACADE.createUser(userDTO);
         } catch (Exception e) {
             throw new API_Exception("Malformed JSON Suplied",400,e);
