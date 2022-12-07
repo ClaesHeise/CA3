@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Topic")
+@NamedQuery(name = "Topic.deleteAllRows", query = "DELETE from Topic")
 public class Topic implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,6 +55,7 @@ public class Topic implements Serializable {
 //    }
 
     public Topic() {}
+
 
     public String getName() {
         return name;
