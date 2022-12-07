@@ -41,6 +41,9 @@ public class UserDTO {
         this.role = user.getRolesAsStrings();
     }
     public UserDTO(String name, String password) {
+        this.username = name;
+        this.password = password;
+        this.role = new ArrayList<>();
     }
 
     public String getUsername() {

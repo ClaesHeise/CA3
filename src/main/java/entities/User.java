@@ -111,4 +111,12 @@ public class User implements Serializable {
     roleList.add(userRole);
   }
 
+  @Override
+  public String toString() {
+    return "User{" +
+            "username='" + username + '\'' +
+            ", password='" + password + '\'' +
+            ", roleList=" + roleList.get(0) +
+            '}';
+  }
 }
