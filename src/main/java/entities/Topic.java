@@ -92,8 +92,13 @@ public class Topic implements Serializable {
     }
 
     public void setCalculator(Calculator calculator) {
+        if (this.calculator != null) {
+            this.calculator.getTopics().remove(this);
+        }
         this.calculator = calculator;
-        calculator.getTopics().add(this);
+        if (calculator != null) {
+            calculator.getTopics().add(this);
+        }
     }
 
     public Subject getSubject() {
@@ -101,9 +106,13 @@ public class Topic implements Serializable {
     }
 
     public void setSubject(Subject subject) {
-        this.subject.getTopicList().remove(this);
+        if (this.subject != null) {
+            this.subject.getTopicList().remove(this);
+        }
         this.subject = subject;
-        subject.getTopicList().add(this);
+        if (subject != null) {
+            subject.getTopicList().add(this);
+        }
     }
 
     public void assingSubject(Subject subject){

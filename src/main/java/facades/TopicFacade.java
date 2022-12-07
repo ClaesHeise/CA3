@@ -182,10 +182,6 @@ public class TopicFacade {
             em.merge(topic);
             em.flush();
             Subject oldSubject = em.find(Subject.class, oldSubjectName);
-//            System.out.println(oldSubject.getName()+": "+oldSubject.getTopicList().isEmpty()+", "+oldSubject.getTopicList().size());
-//            for (Topic t : oldSubject.getTopicList()) {
-//                System.out.println("topic"+t.getName());
-//            }
             if (oldSubject.getTopicList().isEmpty()) {
                 em.remove(oldSubject);
             }
@@ -193,24 +189,9 @@ public class TopicFacade {
         } finally {
             em.close();
         }
-//        updateSubjectsIDK(oldSubjectName);
         return new TopicDTO(topic);
     }
 
-    private void updateSubjectsIDK(String oldSubject) {
-        EntityManager em = getEntityManager();
-        Subject subject = em.find(Subject.class, oldSubject);
-        try {
-            em.getTransaction().begin();
-            System.out.println(subject.getName()+" size: "+subject.getTopicList().size());
-            if (subject.getTopicList().isEmpty() || subject.getTopicList().size() == 0) {
-                em.remove(subject);
-            }
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
-    }
 //
 //    public void deleteTopic(String name) {
 //        EntityManager em = getEntityManager();
