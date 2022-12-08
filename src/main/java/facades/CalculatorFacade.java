@@ -64,6 +64,7 @@ public class CalculatorFacade {
     public CalculatorDTO updateCalculator(CalculatorDTO calculatorDTO) {
         EntityManager em = getEntityManager();
         Calculator calculator = em.find(Calculator.class, calculatorDTO.getName());
+        calculator.setCalculatorURL(calculatorDTO.getCalculatorURL());
         Set<CalculatorField> calculatorFields = new HashSet<>();
         for (CalculatorFieldDTO calculatorFieldDTO : calculatorDTO.getCalculatorFieldDTOs()) {
             CalculatorField calculatorField = new CalculatorField(
