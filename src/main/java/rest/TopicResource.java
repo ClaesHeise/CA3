@@ -17,12 +17,15 @@ package rest;
 //import java.awt.*;
 //import java.util.ArrayList;
 
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 import com.google.gson.*;
 import dtos.CalculatorDTO;
@@ -117,6 +120,7 @@ public class TopicResource {
     @Path("{subjectName}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("teacher")
     public Response addTopic(@PathParam("subjectName") String subjectName, String jsonString) throws API_Exception {
         TopicDTO topicDTO;
         try {
@@ -134,6 +138,7 @@ public class TopicResource {
     @Path("{subjectName}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("teacher")
     public Response updateTopic(@PathParam("subjectName") String subjectName, String jsonString) throws API_Exception {
         TopicDTO topicDTO;
         try {
@@ -147,6 +152,7 @@ public class TopicResource {
 
     @DELETE
     @Produces({MediaType.APPLICATION_JSON})
+    @RolesAllowed("teacher")
     public Response delete(String jsonString) throws API_Exception {
         String name;
         try {

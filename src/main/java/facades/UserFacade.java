@@ -79,22 +79,19 @@ public class UserFacade {
         }
         return user;
     }
-    public void updateUserPassword(String username, String password)  {
+    public UserDTO updateUserPassword(String username, String password)  {
         EntityManager em = emf.createEntityManager();
-        System.out.println(username + " : " + password);
-//        User user = em.find(User.class, userDTO.getUsername());
         User user = em.find(User.class, username);
-        System.out.println(user.toString());
-
+        user.setPassword(password);
         try{
             em.getTransaction().begin();
-//            user.setPassword(userDTO.getPassword());
-            user.setPassword(password);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
+        return new UserDTO(user);
     }
+
     public UserDTO deleteUser(String username) {
         EntityManager em = emf.createEntityManager();
         User user = em.find(User.class, username);
@@ -105,6 +102,13 @@ public class UserFacade {
         } finally {
             em.close();
         }
+        return new UserDTO(user);
+    }
+
+    public UserDTO findUserFromUsername(String username) {
+        EntityManager em = emf.createEntityManager();
+        User user = em.find(User.class, username);
+        em.close();
         return new UserDTO(user);
     }
 }
