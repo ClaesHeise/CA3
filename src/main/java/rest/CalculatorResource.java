@@ -7,6 +7,7 @@ import errorhandling.API_Exception;
 import facades.CalculatorFacade;
 import utils.EMF_Creator;
 
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -47,6 +48,7 @@ public class CalculatorResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("teacher")
     public Response createCalculator(String jsonString) throws API_Exception {
         CalculatorDTO calculatorDTO;
         try {
@@ -61,6 +63,7 @@ public class CalculatorResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("teacher")
     public Response updateCalculator(String jsonString) throws API_Exception {
         CalculatorDTO calculatorDTO;
         try {
@@ -75,6 +78,7 @@ public class CalculatorResource {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{name}")
+    @RolesAllowed("teacher")
     public Response deleteCalculator(@PathParam("name") String name) throws API_Exception {
         CalculatorDTO calculatorDTO;
         try {
