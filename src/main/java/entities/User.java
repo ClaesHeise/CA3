@@ -66,10 +66,6 @@ public class User implements Serializable {
   public User() {}
 
    public boolean verifyPassword(String pw){
-     System.out.println(pw);
-     System.out.println(password);
-     System.out.println(BCrypt.hashpw(pw, BCrypt.gensalt()));
-     System.out.println(BCrypt.hashpw(pw, BCrypt.gensalt()) == password);
     return(BCrypt.checkpw(pw, password));
   }
 
