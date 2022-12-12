@@ -65,6 +65,8 @@ class CalculatorResourceTest {
             em.createNamedQuery("Role.deleteAllRows").executeUpdate();
             em.createNamedQuery("Topic.deleteAllRows").executeUpdate();
             em.createNamedQuery("Subject.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Field.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Calculator.deleteAllRows").executeUpdate();
 //            em.createQuery("delete from User ").executeUpdate();
 //            em.createQuery("delete from Role").executeUpdate();
             Role teacherRole = new Role("teacher");
@@ -131,7 +133,7 @@ class CalculatorResourceTest {
     void getCalculatorByName() {
         given()
                 .when()
-                .get("/calculator/addition")
+                .get("/calculator/Addition")
                 .then()
                 .statusCode(200)
                 .body("name", equalTo("Addition"),

@@ -7,7 +7,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Calculator")
-@NamedQuery(name = "Calculator.findAll", query = "SELECT c FROM Calculator c")
+@NamedQueries({
+        @NamedQuery(name = "Calculator.findAll", query = "SELECT c FROM Calculator c"),
+        @NamedQuery(name = "Calculator.deleteAllRows", query = "DELETE from Calculator ")
+})
 public class Calculator {
     private static final long serialVersionUID = 1L;
 

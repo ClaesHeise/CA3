@@ -5,6 +5,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Field")
+@NamedQuery(name = "Field.deleteAllRows", query = "DELETE from CalculatorField ")
 public class CalculatorField {
     private static final long serialVersionUID = 1L;
 
