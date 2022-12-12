@@ -141,11 +141,45 @@ class CalculatorResourceTest {
 
     @Test
     void createCalculator() {
+        login("user", "test");
 
+        String calculatorName = "abcdefg";
+        String calculatorURL = "aaa";
+        String keyword = "anothernewword";
+
+        String jsonBody = String.format("{\"name\":\"%s\",\"calculatorURL\":\"%s\",\"calculatorFields\":[{\"keyword\":\"%s\",\"formula\":\"ccc+bbb\",\"isSingleInput\":false,\"tags\":[\"ccc\",\"bbb\"]},{\"keyword\":\"thirdword\",\"formula\":\"ha ha ha ha\",\"isSingleInput\":false,\"tags\":[\"h\",\"a\"]}]}",
+                calculatorName, calculatorURL, keyword);
+
+        given()
+                .contentType("application/json")
+                .header("x-access-token", securityToken)
+                .body(jsonBody)
+                .when()
+                .post("/calculator")
+                .then()
+                .statusCode(200)
+                .body("name", equalTo(calculatorName),
+                        "calculatorURL", equalTo(calculatorURL),
+                        "calculatorFields", hasItem(hasEntry("keyword", "anothernewword")));
     }
 
     @Test
     void updateCalculator() {
+        login("user", "test");
+
+        String jsonBody = "{\"name\":\"addition\",\"calculatorURL\":\"hhhhaaa\",\"calculatorFields\":[{\"keyword\":\"nooo\",\"formula\":\"ccc+bbb\",\"isSingleInput\":false,\"tags\":[\"ccc\",\"bbb\"]},{\"keyword\":\"thirdword\",\"formula\":\"ha ha ha ha\",\"isSingleInput\":false,\"tags\":[\"h\",\"a\"]}]}";
+
+        given()
+                .contentType("application/json")
+                .header("x-access-token", securityToken)
+                .body(jsonBody)
+                .when()
+                .put("/calculator")
+                .then()
+                .statusCode(200)
+                .body("name", equalTo("Addition"),
+                        "calculatorURL", equalTo("hhhhaaa"),
+                        "calculatorFields", hasItem(hasEntry("keyword", "nooo")));
     }
 
     @Test
