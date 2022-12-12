@@ -15,7 +15,7 @@ public class Calculator {
     @NotNull
     private String name;
     private String calculatorURL;
-    @OneToMany(mappedBy = "calculator", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "calculator", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CalculatorField> calculatorFields = new LinkedHashSet<>();
     @OneToMany(mappedBy = "calculator")
     private Set<Topic> topics = new LinkedHashSet<>();

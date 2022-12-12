@@ -181,8 +181,28 @@ class CalculatorResourceTest {
                         "calculatorURL", equalTo("hhhhaaa"),
                         "calculatorFields", hasItem(hasEntry("keyword", "nooo")));
     }
-
+    @Disabled
     @Test
     void deleteCalculator() {
+        login("user", "test");
+
+        String name = given()
+            .contentType("application/json")
+            .header("x-access-token", securityToken)
+            .when()
+            .delete("/calculator/Addition")
+            .then()
+            .statusCode(200)
+                .extract().path("name");
+
+        System.out.println(name);
+
+        given()
+                .when()
+                .get("/calculator")
+                .then()
+                .statusCode(200)
+                .body("", equalTo(0));
+
     }
 }

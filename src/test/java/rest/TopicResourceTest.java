@@ -18,8 +18,7 @@ import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TopicResourceTest {
@@ -117,24 +116,47 @@ class TopicResourceTest {
                 .statusCode(200);
     }
 
-    @Test
-    void getAllCalcs() {
-    }
 
     @Test
     void getByName() {
+        given()
+                .when()
+                .get("/topic/Addition")
+                .then()
+                .statusCode(200);
     }
 
     @Test
     void getAllSubject() {
+        given()
+                .when()
+                .get("/topic/allSubjects")
+                .then()
+                .statusCode(200);
     }
 
     @Test
     void getSubjectByName() {
+        given()
+                .when()
+                .get("/topic/subject/math")
+                .then()
+                .statusCode(200)
+                .body("name",equalTo("math"),
+                        "topics", hasItem(hasEntry("name","addition")));
     }
 
     @Test
     void addTopic() {
+//        login("user","test");
+//        given()
+//                .contentType("application/json")
+//                .header("x-access-token", securityToken)
+//                .body("{\"name\": testTopic,\n\"password\": testing}")
+//                .when().post("/topic")
+//                .then()
+//                .statusCode(200)
+//                .body("name",equalTo("testTopic"));
     }
 
     @Test
@@ -143,5 +165,16 @@ class TopicResourceTest {
 
     @Test
     void delete() {
+        login("user","test");
+
+            given()
+                    .contentType("application/json")
+                    .header("x-access-token",securityToken)
+                    .body("{\"name\": \"addition\"}")
+                    .when()
+                    .delete("/topic")
+                    .then()
+                    .statusCode(200)
+                    .body("name",equalTo("addition"));
     }
 }
